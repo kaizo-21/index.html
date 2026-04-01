@@ -456,7 +456,10 @@ footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(2
           </div>
           <div class="form-group full">
             <label class="form-label">Image URL (Pinterest, Amazon, or direct link)</label>
-            <input class="form-input" id="of-img" placeholder="https://i.pinimg.com/... or paste any image URL" oninput="previewImg('of-img','of-preview')">
+            <input class="form-input" id="of-img" placeholder="Paste image URL">
+            <label class="form-label">OR Upload Image</label>
+            <input type="file" accept="image/*"
+              onchange="handleImageUpload(event, 'of-img', 'of-preview')">
             <div class="img-preview-wrap"><img class="img-preview" id="of-preview"></div>
             <div class="form-hint">Paste a Pinterest image URL or any direct .jpg/.png/.webp link</div>
           </div>
@@ -509,7 +512,10 @@ footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(2
           </div>
           <div class="form-group full">
             <label class="form-label">Image URL</label>
-            <input class="form-input" id="ac-img" placeholder="https://i.pinimg.com/... or Amazon product image URL" oninput="previewImg('ac-img','ac-preview')">
+            <input class="form-input" id="ac-img" placeholder="Paste image URL">
+            <label class="form-label">OR Upload Image</label>
+            <input type="file" accept="image/*"
+              onchange="handleImageUpload(event, 'ac-img', 'ac-preview')">
             <div class="img-preview-wrap"><img class="img-preview" id="ac-preview"></div>
           </div>
           <div class="form-group">
@@ -561,7 +567,10 @@ footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(2
           </div>
           <div class="form-group full">
             <label class="form-label">Look Image URL</label>
-            <input class="form-input" id="sh-img" placeholder="https://i.pinimg.com/..." oninput="previewImg('sh-img','sh-preview')">
+            <input class="form-input" id="sh-img" placeholder="Paste image URL">
+            <label class="form-label">OR Upload Image</label>
+            <input type="file" accept="image/*"
+              onchange="handleImageUpload(event, 'sh-img', 'sh-preview')">
             <div class="img-preview-wrap"><img class="img-preview" id="sh-preview"></div>
           </div>
           <div class="form-group full">
@@ -599,7 +608,10 @@ footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(2
           </div>
           <div class="form-group full">
             <label class="form-label">Cover Image URL</label>
-            <input class="form-input" id="tr-img" placeholder="https://i.pinimg.com/..." oninput="previewImg('tr-img','tr-preview')">
+            <input class="form-input" id="tr-img" placeholder="Paste image URL">
+            <label class="form-label">OR Upload Image</label>
+            <input type="file" accept="image/*"
+              onchange="handleImageUpload(event, 'tr-img', 'tr-preview')">
             <div class="img-preview-wrap"><img class="img-preview" id="tr-preview"></div>
           </div>
           <div class="form-group full">
@@ -919,6 +931,35 @@ function showToast(msg) {
   msgEl.textContent = msg;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+function handleImageUpload(event, inputId, previewId) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // limit size (optional but recommended)
+  if (file.size > 300 * 1024) {
+    alert("Image too large. Please upload under 300KB.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const base64 = e.target.result;
+
+    // store in input field
+    document.getElementById(inputId).value = base64;
+
+    // preview
+    const preview = document.getElementById(previewId);
+    if (preview) {
+      preview.src = base64;
+      preview.classList.add('show');
+    }
+  };
+
+  reader.readAsDataURL(file);
 }
 
 // ════════════════════════════════════════
