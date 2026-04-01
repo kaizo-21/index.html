@@ -965,7 +965,7 @@ function handleImageUpload(event, inputId, previewId) {
 function checkAdminAccess() {
   const password = prompt("Enter Admin Password:");
 
-  if (password === "97z311@94856") { // 🔑 change this!
+  if (password === "1234") { // 🔑 change this!
     openAdmin();
   } else if (password !== null) {
     alert("Wrong password!");
@@ -976,7 +976,7 @@ document.addEventListener("keydown", function(e) {
   if (e.ctrlKey && e.key === "a") {
     const password = prompt("Enter Admin Password:");
 
-    if (password === "mySecret@2026") {
+    if (password === "97z311@94856") {
       document.getElementById("adminBtn").style.display = "block";
       openAdmin();
     } else {
