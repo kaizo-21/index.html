@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opal & Rouge — Elevated Style. Curated Finds.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --blush: #f5ede8; --rose: #c9897a; --deep-rose: #9e5e52;
+  --sand: #e8dfd5; --warm-white: #faf7f4; --cream: #f2ece5;
+  --charcoal: #2a2220; --muted: #7a6e6a; --light-muted: #b5aaa5;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Jost', system-ui, sans-serif;
+  --admin-bg: #1a1a2e; --admin-card: #16213e; --admin-accent: #c9897a;
+  --admin-border: rgba(201,137,122,0.2); --admin-text: #e8e0d8;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--warm-white); color: var(--charcoal); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+
+/* ── NAV ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 3.5rem; background: rgba(250,247,244,0.94); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(201,137,122,0.1); }
+.nav-logo { font-family: var(--serif); font-size: 1.45rem; font-weight: 400; letter-spacing: 0.03em; color: var(--charcoal); text-decoration: none; cursor: pointer; }
+.nav-logo span { color: var(--rose); font-style: italic; }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+.nav-links a:hover, .nav-links a.active { color: var(--rose); }
+.nav-right { display: flex; gap: 0.75rem; align-items: center; }
+.nav-cta { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-white); background: var(--rose); padding: 0.55rem 1.4rem; text-decoration: none; transition: background 0.2s; cursor: pointer; border: none; font-family: var(--sans); }
+.nav-cta:hover { background: var(--deep-rose); }
+.admin-btn { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); border: 1px solid rgba(201,137,122,0.3); padding: 0.5rem 1rem; background: none; font-family: var(--sans); cursor: pointer; transition: all 0.2s; }
+.admin-btn:hover { color: var(--rose); border-color: var(--rose); }
+
+/* ── PAGE SYSTEM ── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ── HERO ── */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding-top: 72px; }
+.hero-text { padding: 5rem 3rem 5rem 3.5rem; }
+.hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose); margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.8rem; }
+.hero-eyebrow::before { content: ''; display: inline-block; width: 36px; height: 1px; background: var(--rose); }
+.hero h1 { font-family: var(--serif); font-size: clamp(2.6rem,4.5vw,4rem); font-weight: 300; line-height: 1.15; margin-bottom: 1.4rem; }
+.hero h1 em { font-style: italic; color: var(--rose); }
+.hero-sub { font-size: 0.9rem; color: var(--muted); max-width: 420px; line-height: 1.85; margin-bottom: 2.2rem; }
+.hero-btns { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+.hero-visual { height: 100vh; background: var(--cream); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.hero-pins { display: flex; flex-direction: column; gap: 1rem; align-items: center; padding: 2rem; width: 100%; }
+.hero-pin { background: var(--warm-white); border: 1px solid rgba(201,137,122,0.15); width: 230px; position: relative; transition: transform 0.3s; }
+.hero-pin:nth-child(1) { transform: rotate(-2.5deg) translateX(-18px); }
+.hero-pin:nth-child(2) { transform: rotate(1.8deg) translateX(18px); }
+.hero-pin:nth-child(3) { transform: rotate(-1.2deg) translateX(-8px); }
+.hero-pin:hover { transform: rotate(0deg) translateY(-4px) scale(1.02) !important; z-index: 2; }
+.pin-img { width: 100%; aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-style: italic; font-size: 2rem; overflow: hidden; background: var(--blush); }
+.pin-img img { width: 100%; height: 100%; object-fit: cover; }
+.pin-body { padding: 0.75rem 0.9rem 0.9rem; }
+.pin-cat { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.2rem; }
+.pin-title { font-family: var(--serif); font-size: 0.9rem; color: var(--charcoal); }
+.pin-badge { position: absolute; top: -8px; right: -8px; background: var(--rose); color: var(--warm-white); font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.6rem; }
+
+/* ── BUTTONS ── */
+.btn-primary { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-white); background: var(--charcoal); padding: 0.85rem 1.9rem; text-decoration: none; transition: background 0.2s, transform 0.2s; display: inline-block; border: none; cursor: pointer; }
+.btn-primary:hover { background: var(--rose); transform: translateY(-1px); }
+.btn-secondary { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--charcoal); border: 1px solid currentColor; padding: 0.85rem 1.9rem; text-decoration: none; transition: color 0.2s, border-color 0.2s, transform 0.2s; display: inline-block; background: none; cursor: pointer; }
+.btn-secondary:hover { color: var(--rose); border-color: var(--rose); transform: translateY(-1px); }
+
+/* ── SECTION HEADER ── */
+.section-header { text-align: center; margin-bottom: 3rem; }
+.section-eyebrow { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.6rem; }
+.section-title { font-family: var(--serif); font-size: clamp(1.9rem,3.2vw,2.7rem); font-weight: 300; color: var(--charcoal); line-height: 1.2; }
+.section-title em { font-style: italic; color: var(--rose); }
+
+/* ── OUTFIT CARDS ── */
+.outfits-section { padding: 5.5rem 3.5rem; background: var(--cream); }
+.outfits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.75rem; max-width: 1200px; margin: 0 auto; }
+.outfit-card { text-decoration: none; color: inherit; display: block; cursor: pointer; }
+.outfit-img { aspect-ratio: 3/4; background: var(--blush); position: relative; overflow: hidden; margin-bottom: 0.85rem; transition: transform 0.4s; }
+.outfit-card:hover .outfit-img { transform: scale(1.03); }
+.outfit-img img { width: 100%; height: 100%; object-fit: cover; }
+.outfit-img-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 3rem; color: rgba(201,137,122,0.3); font-style: italic; }
+.outfit-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(42,34,32,0.55) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 1.25rem; }
+.outfit-card:hover .outfit-overlay { opacity: 1; }
+.outfit-overlay-text { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--warm-white); }
+.outfit-tag { font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.35rem; }
+.outfit-title { font-family: var(--serif); font-size: 1.05rem; font-weight: 400; color: var(--charcoal); line-height: 1.35; }
+
+/* ── PRODUCT CARDS ── */
+.accessories-section { padding: 5.5rem 3.5rem; background: var(--sand); }
+.accessories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; }
+.accessory-card { background: var(--warm-white); text-decoration: none; color: inherit; display: block; transition: transform 0.3s; cursor: pointer; }
+.accessory-card:hover { transform: translateY(-4px); }
+.accessory-img { aspect-ratio: 1; background: var(--cream); display: flex; align-items: center; justify-content: center; overflow: hidden; font-family: var(--serif); font-size: 2rem; color: rgba(201,137,122,0.35); font-style: italic; transition: background 0.3s; }
+.accessory-img img { width: 100%; height: 100%; object-fit: cover; }
+.accessory-card:hover .accessory-img { background: var(--blush); }
+.accessory-info { padding: 0.9rem 1.1rem 1.1rem; }
+.accessory-cat { font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.25rem; }
+.accessory-name { font-family: var(--serif); font-size: 0.93rem; color: var(--charcoal); margin-bottom: 0.45rem; }
+.accessory-link { font-size: 0.67rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* ── EMPTY STATE ── */
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--light-muted); }
+.empty-state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+.empty-state p { font-family: var(--serif); font-size: 1.1rem; font-style: italic; }
+
+/* ── NEWSLETTER ── */
+.newsletter-section { padding: 4.5rem 3.5rem; background: var(--blush); text-align: center; }
+.newsletter-title { font-family: var(--serif); font-size: clamp(1.7rem,2.8vw,2.3rem); font-weight: 300; margin-bottom: 0.6rem; }
+.newsletter-title em { font-style: italic; color: var(--rose); }
+.newsletter-sub { font-size: 0.86rem; color: var(--muted); margin-bottom: 1.8rem; }
+.newsletter-form { display: flex; justify-content: center; max-width: 420px; margin: 0 auto; }
+.newsletter-form input { flex: 1; padding: 0.85rem 1.1rem; border: 1px solid rgba(201,137,122,0.3); border-right: none; background: var(--warm-white); font-family: var(--sans); font-size: 0.83rem; color: var(--charcoal); outline: none; }
+.newsletter-form input::placeholder { color: var(--light-muted); }
+.newsletter-form button { padding: 0.85rem 1.3rem; background: var(--rose); color: var(--warm-white); border: none; cursor: pointer; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; transition: background 0.2s; }
+.newsletter-form button:hover { background: var(--deep-rose); }
+
+/* ── FOOTER ── */
+footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(250,247,244,0.6); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; max-width: 1200px; margin: 0 auto 2.5rem; }
+.footer-brand-name { font-family: var(--serif); font-size: 1.4rem; font-weight: 400; color: var(--warm-white); margin-bottom: 0.8rem; }
+.footer-brand-name span { color: var(--rose); font-style: italic; }
+.footer-brand-desc { font-size: 0.8rem; line-height: 1.8; max-width: 240px; }
+.footer-col-title { font-size: 0.67rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--warm-white); margin-bottom: 1.1rem; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.footer-links a { font-size: 0.8rem; color: rgba(250,247,244,0.5); text-decoration: none; transition: color 0.2s; cursor: pointer; }
+.footer-links a:hover { color: var(--rose); }
+.footer-divider { border: none; border-top: 1px solid rgba(250,247,244,0.07); margin: 0 0 1.3rem; }
+.footer-bottom { display: flex; align-items: flex-start; justify-content: space-between; max-width: 1200px; margin: 0 auto; gap: 2rem; }
+.footer-copy { font-size: 0.72rem; }
+.footer-disclaimer { font-size: 0.67rem; color: rgba(250,247,244,0.3); max-width: 480px; line-height: 1.65; text-align: right; }
+
+/* ════════════ ADMIN PANEL ════════════ */
+.admin-overlay { position: fixed; inset: 0; z-index: 1000; background: var(--admin-bg); overflow-y: auto; display: none; }
+.admin-overlay.open { display: block; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 2.5rem; border-bottom: 1px solid var(--admin-border); position: sticky; top: 0; background: var(--admin-bg); z-index: 10; }
+.admin-logo { font-family: var(--serif); font-size: 1.3rem; color: var(--admin-text); }
+.admin-logo span { color: var(--admin-accent); font-style: italic; }
+.admin-logo small { font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(232,224,216,0.4); margin-left: 0.5rem; }
+.admin-close { background: none; border: 1px solid var(--admin-border); color: var(--admin-text); font-size: 1.1rem; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s; }
+.admin-close:hover { border-color: var(--admin-accent); color: var(--admin-accent); }
+.admin-body { max-width: 1100px; margin: 0 auto; padding: 2.5rem; }
+.admin-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--admin-border); margin-bottom: 2.5rem; }
+.admin-tab { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(232,224,216,0.45); padding: 0.75rem 1.5rem; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; font-family: var(--sans); background: none; border-top: none; border-left: none; border-right: none; }
+.admin-tab.active { color: var(--admin-accent); border-bottom-color: var(--admin-accent); }
+.admin-tab:hover:not(.active) { color: rgba(232,224,216,0.7); }
+.admin-panel { display: none; }
+.admin-panel.active { display: block; }
+.admin-section-title { font-family: var(--serif); font-size: 1.4rem; color: var(--admin-text); margin-bottom: 0.4rem; font-weight: 300; }
+.admin-section-sub { font-size: 0.8rem; color: rgba(232,224,216,0.45); margin-bottom: 2rem; }
+
+/* Admin Form */
+.admin-form-card { background: var(--admin-card); border: 1px solid var(--admin-border); padding: 2rem; margin-bottom: 2rem; }
+.admin-form-title { font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--admin-accent); margin-bottom: 1.5rem; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+.form-group.full { grid-column: 1 / -1; }
+.form-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(232,224,216,0.5); }
+.form-input, .form-select, .form-textarea {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--admin-border);
+  color: var(--admin-text); font-family: var(--sans); font-size: 0.85rem; font-weight: 300;
+  padding: 0.7rem 0.9rem; outline: none; transition: border-color 0.2s; width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--admin-accent); }
+.form-input::placeholder, .form-textarea::placeholder { color: rgba(232,224,216,0.25); }
+.form-select option { background: var(--admin-bg); }
+.form-textarea { resize: vertical; min-height: 90px; }
+.form-hint { font-size: 0.68rem; color: rgba(232,224,216,0.3); margin-top: 0.2rem; }
+.admin-submit { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--admin-bg); background: var(--admin-accent); border: none; padding: 0.85rem 2rem; cursor: pointer; transition: background 0.2s, transform 0.2s; margin-top: 1.25rem; }
+.admin-submit:hover { background: var(--deep-rose); transform: translateY(-1px); }
+
+/* Admin Product List */
+.admin-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.admin-item { background: var(--admin-card); border: 1px solid var(--admin-border); padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1.25rem; transition: border-color 0.2s; }
+.admin-item:hover { border-color: rgba(201,137,122,0.4); }
+.admin-item-img { width: 52px; height: 52px; object-fit: cover; background: rgba(255,255,255,0.06); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-style: italic; color: rgba(201,137,122,0.5); font-size: 1.1rem; overflow: hidden; }
+.admin-item-img img { width: 100%; height: 100%; object-fit: cover; }
+.admin-item-info { flex: 1; }
+.admin-item-name { font-family: var(--serif); font-size: 0.95rem; color: var(--admin-text); margin-bottom: 0.2rem; }
+.admin-item-meta { font-size: 0.72rem; color: rgba(232,224,216,0.4); }
+.admin-item-cat { display: inline-block; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--admin-accent); background: rgba(201,137,122,0.1); padding: 0.2rem 0.5rem; margin-left: 0.5rem; }
+.admin-item-actions { display: flex; gap: 0.5rem; }
+.admin-action-btn { background: none; border: 1px solid var(--admin-border); color: rgba(232,224,216,0.5); font-family: var(--sans); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.75rem; cursor: pointer; transition: all 0.2s; }
+.admin-action-btn:hover { border-color: var(--admin-accent); color: var(--admin-accent); }
+.admin-action-btn.danger:hover { border-color: #e24b4a; color: #e24b4a; }
+
+/* Stats bar */
+.admin-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
+.admin-stat { background: var(--admin-card); border: 1px solid var(--admin-border); padding: 1.25rem 1.5rem; }
+.admin-stat-num { font-family: var(--serif); font-size: 2rem; color: var(--admin-accent); font-style: italic; line-height: 1; display: block; }
+.admin-stat-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(232,224,216,0.4); margin-top: 0.35rem; }
+
+/* Toast */
+.toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 9999; background: var(--charcoal); border: 1px solid var(--rose); color: var(--warm-white); font-family: var(--sans); font-size: 0.8rem; padding: 0.85rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; transform: translateY(100px); opacity: 0; transition: all 0.3s; }
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-icon { color: var(--rose); font-size: 1rem; }
+
+/* Image preview */
+.img-preview-wrap { position: relative; }
+.img-preview { width: 100%; height: 120px; object-fit: cover; margin-top: 0.5rem; display: none; border: 1px solid var(--admin-border); }
+.img-preview.show { display: block; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .hero-text { padding: 5rem 1.5rem 3rem; }
+  .outfits-section, .accessories-section, .newsletter-section { padding: 3.5rem 1.5rem; }
+  footer { padding: 2.5rem 1.5rem 1.5rem; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; }
+  .footer-disclaimer { text-align: left; }
+  .admin-body { padding: 1.5rem; }
+  .form-grid { grid-template-columns: 1fr; }
+  .admin-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">Opal <span>&</span> Rouge</a>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('outfits')" id="nav-outfits">Outfit Ideas</a></li>
+    <li><a onclick="showPage('accessories')" id="nav-accessories">Accessories</a></li>
+    <li><a onclick="showPage('trends')" id="nav-trends">Trend Guides</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
+    <button class="nav-cta" onclick="showPage('shop')">Shop the Look</button>
+  </div>
+</nav>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-icon">✦</span><span id="toast-msg">Saved!</span></div>
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-text">
+      <p class="hero-eyebrow">New Season Curation</p>
+      <h1>Elevated Style.<br><em>Curated Finds.</em><br>Effortless Elegance.</h1>
+      <p class="hero-sub">Discover handpicked fashion, accessories, and outfit inspiration designed to help you look confident, modern, and effortlessly chic — every day.</p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="showPage('shop')">Shop the Look</button>
+        <button class="btn-secondary" onclick="showPage('outfits')">Explore Outfit Ideas</button>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-pins" id="hero-pins">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED OUTFITS -->
+  <section class="outfits-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Fresh Picks</p>
+      <h2 class="section-title">Outfit <em>Inspiration</em></h2>
+    </div>
+    <div class="outfits-grid" id="home-outfits-grid"></div>
+  </section>
+
+  <!-- ACCESSORIES PREVIEW -->
+  <section class="accessories-section">
+    <div class="section-header">
+      <p class="section-eyebrow">The Edit</p>
+      <h2 class="section-title">Curated <em>Accessories</em></h2>
+    </div>
+    <div class="accessories-grid" id="home-accessories-grid"></div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-section">
+    <h2 class="newsletter-title">Style delivered to your <em>inbox</em></h2>
+    <p class="newsletter-sub">Weekly outfit ideas, exclusive finds, and curated picks from Opal & Rouge.</p>
+    <form class="newsletter-form" onsubmit="return false;">
+      <input type="email" placeholder="Your email address">
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">Opal <span>&</span> Rouge</div>
+        <p class="footer-brand-desc">A fashion and lifestyle destination curated for modern women who value elegance, simplicity, and timeless style.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Explore</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('outfits')">Outfit Ideas</a></li>
+          <li><a onclick="showPage('accessories')">Accessories</a></li>
+          <li><a onclick="showPage('shop')">Shop the Look</a></li>
+          <li><a onclick="showPage('trends')">Trend Guides</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('about')">About</a></li>
+          <li><a>Contact</a></li>
+          <li><a>Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Follow</div>
+        <ul class="footer-links">
+          <li><a href="https://in.pinterest.com/opalrougeoutfits/" target="_blank">Pinterest</a></li>
+          <li><a>Instagram</a></li>
+          <li><a>Newsletter</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Opal & Rouge. All rights reserved.</span>
+      <p class="footer-disclaimer">Opal & Rouge is a participant in the Amazon Associates Program. We may earn commissions from qualifying purchases made through our links, at no extra cost to you.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════ OUTFITS PAGE ═══════════════ -->
+<div class="page" id="page-outfits">
+  <div style="padding:6.5rem 3.5rem 5rem; max-width:1300px; margin:0 auto;">
+    <div class="section-header">
+      <p class="section-eyebrow">Style Diary</p>
+      <h2 class="section-title">Outfit <em>Inspiration</em></h2>
+    </div>
+    <div class="outfits-grid" id="all-outfits-grid"></div>
+  </div>
+  <footer style="background:var(--charcoal);padding:1.5rem 3.5rem;color:rgba(250,247,244,0.4);font-size:0.72rem;text-align:center;">
+    Opal & Rouge participates in the Amazon Associates Program. Commissions may be earned from qualifying purchases.
+  </footer>
+</div>
+
+<!-- ═══════════════ ACCESSORIES PAGE ═══════════════ -->
+<div class="page" id="page-accessories">
+  <div style="padding:6.5rem 3.5rem 5rem; max-width:1300px; margin:0 auto;">
+    <div class="section-header">
+      <p class="section-eyebrow">Shop Now</p>
+      <h2 class="section-title">The <em>Accessories</em> Edit</h2>
+    </div>
+    <div class="accessories-grid" id="all-accessories-grid"></div>
+  </div>
+  <footer style="background:var(--charcoal);padding:1.5rem 3.5rem;color:rgba(250,247,244,0.4);font-size:0.72rem;text-align:center;">
+    Opal & Rouge participates in the Amazon Associates Program. Commissions may be earned from qualifying purchases.
+  </footer>
+</div>
+
+<!-- ═══════════════ SHOP PAGE ═══════════════ -->
+<div class="page" id="page-shop">
+  <div style="padding:6.5rem 3.5rem 5rem; max-width:1300px; margin:0 auto;">
+    <div class="section-header">
+      <p class="section-eyebrow">Shoppable Looks</p>
+      <h2 class="section-title">Shop the <em>Look</em></h2>
+    </div>
+    <div class="outfits-grid" id="shop-grid"></div>
+  </div>
+  <footer style="background:var(--charcoal);padding:1.5rem 3.5rem;color:rgba(250,247,244,0.4);font-size:0.72rem;text-align:center;">
+    Opal & Rouge participates in the Amazon Associates Program. Commissions may be earned from qualifying purchases.
+  </footer>
+</div>
+
+<!-- ═══════════════ TRENDS PAGE ═══════════════ -->
+<div class="page" id="page-trends">
+  <div style="padding:6.5rem 3.5rem 5rem; background:var(--charcoal); min-height:100vh;">
+    <div class="section-header">
+      <p class="section-eyebrow">Reading List</p>
+      <h2 class="section-title" style="color:var(--warm-white);">Trend <em>Guides</em></h2>
+    </div>
+    <div class="outfits-grid" style="max-width:1200px;margin:0 auto;" id="trends-grid"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ABOUT PAGE ═══════════════ -->
+<div class="page" id="page-about">
+  <div style="padding:8rem 3.5rem 6rem; max-width:860px; margin:0 auto;">
+    <div class="section-header" style="text-align:left;">
+      <p class="section-eyebrow">Our Story</p>
+      <h2 class="section-title">About <em>Opal & Rouge</em></h2>
+    </div>
+    <p style="font-size:0.95rem;color:var(--muted);line-height:1.9;margin-bottom:1.4rem;">Opal & Rouge is a fashion and lifestyle destination curated for modern women who value elegance, simplicity, and timeless style.</p>
+    <p style="font-size:0.95rem;color:var(--muted);line-height:1.9;margin-bottom:1.4rem;">We bring together carefully selected outfit ideas, accessories, and fashion finds that blend everyday wear with a touch of luxury. From workwear inspiration to statement jewellery and global fashion aesthetics, every piece is chosen to help you express your personal style with confidence.</p>
+    <p style="font-size:0.95rem;color:var(--muted);line-height:1.9;">Our goal is simple — to make fashion inspiration easy, accessible, and beautifully curated.</p>
+    <div style="display:flex;gap:3rem;margin-top:3rem;flex-wrap:wrap;">
+      <div><span style="font-family:var(--serif);font-size:2.5rem;color:var(--rose);font-style:italic;display:block;line-height:1;" id="about-outfit-count">0</span><div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;">Curated Looks</div></div>
+      <div><span style="font-family:var(--serif);font-size:2.5rem;color:var(--rose);font-style:italic;display:block;line-height:1;" id="about-acc-count">0</span><div style="font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.3rem;">Accessories</div></div>
+    </div>
+    <button class="btn-primary" style="margin-top:2.5rem;" onclick="showPage('outfits')">Explore the Collection</button>
+  </div>
+  <footer style="background:var(--charcoal);padding:1.5rem 3.5rem;color:rgba(250,247,244,0.4);font-size:0.72rem;text-align:center;">
+    Opal & Rouge participates in the Amazon Associates Program. Commissions may be earned from qualifying purchases.
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- ════════════ ADMIN OVERLAY ════════════ -->
+<!-- ═══════════════════════════════════════ -->
+<div class="admin-overlay" id="admin-overlay">
+  <div class="admin-header">
+    <div>
+      <span class="admin-logo">Opal <span>&</span> Rouge<small>Admin</small></span>
+    </div>
+    <button class="admin-close" onclick="closeAdmin()">✕</button>
+  </div>
+  <div class="admin-body">
+
+    <!-- STATS -->
+    <div class="admin-stats">
+      <div class="admin-stat"><span class="admin-stat-num" id="stat-outfits">0</span><div class="admin-stat-label">Outfit Posts</div></div>
+      <div class="admin-stat"><span class="admin-stat-num" id="stat-accessories">0</span><div class="admin-stat-label">Accessories</div></div>
+      <div class="admin-stat"><span class="admin-stat-num" id="stat-shop">0</span><div class="admin-stat-label">Shop Looks</div></div>
+      <div class="admin-stat"><span class="admin-stat-num" id="stat-trends">0</span><div class="admin-stat-label">Trend Guides</div></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('outfits')">Outfit Posts</button>
+      <button class="admin-tab" onclick="switchTab('accessories')">Accessories</button>
+      <button class="admin-tab" onclick="switchTab('shop')">Shop the Look</button>
+      <button class="admin-tab" onclick="switchTab('trends')">Trend Guides</button>
+    </div>
+
+    <!-- ── OUTFITS PANEL ── -->
+    <div class="admin-panel active" id="panel-outfits">
+      <div class="admin-section-title">Outfit Posts</div>
+      <div class="admin-section-sub">Add outfit inspiration posts. Each post appears on the Outfit Ideas page and homepage.</div>
+      <div class="admin-form-card">
+        <div class="admin-form-title">Add New Outfit Post</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Outfit Title *</label>
+            <input class="form-input" id="of-title" placeholder="e.g. 10 Elegant Office Outfits for Women">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select class="form-select" id="of-cat">
+              <option value="">Select category</option>
+              <option>Office Wear</option>
+              <option>Festive & Eid</option>
+              <option>Career Fair</option>
+              <option>Street Style</option>
+              <option>Casual</option>
+              <option>Cultural Fashion</option>
+              <option>Spring Style</option>
+              <option>Formal</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Image URL (Pinterest, Amazon, or direct link)</label>
+            <input class="form-input" id="of-img" placeholder="https://i.pinimg.com/... or paste any image URL" oninput="previewImg('of-img','of-preview')">
+            <div class="img-preview-wrap"><img class="img-preview" id="of-preview"></div>
+            <div class="form-hint">Paste a Pinterest image URL or any direct .jpg/.png/.webp link</div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Short Description / Styling Tip</label>
+            <textarea class="form-textarea" id="of-desc" placeholder="A short intro or styling tip for this outfit..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amazon Affiliate Link</label>
+            <input class="form-input" id="of-link" placeholder="https://www.amazon.in/...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Show on Homepage?</label>
+            <select class="form-select" id="of-featured">
+              <option value="yes">Yes — Feature on Homepage</option>
+              <option value="no">No — Outfits page only</option>
+            </select>
+          </div>
+        </div>
+        <button class="admin-submit" onclick="addItem('outfits')">Add Outfit Post ✦</button>
+      </div>
+      <div class="admin-list" id="list-outfits"></div>
+    </div>
+
+    <!-- ── ACCESSORIES PANEL ── -->
+    <div class="admin-panel" id="panel-accessories">
+      <div class="admin-section-title">Accessories</div>
+      <div class="admin-section-sub">Add jewellery, bags, watches, sunglasses, waist chains, and more.</div>
+      <div class="admin-form-card">
+        <div class="admin-form-title">Add New Accessory</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Product Name *</label>
+            <input class="form-input" id="ac-title" placeholder="e.g. Gold Layered Necklace Set">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select class="form-select" id="ac-cat">
+              <option value="">Select category</option>
+              <option>Necklaces</option>
+              <option>Rings</option>
+              <option>Earrings</option>
+              <option>Waist Chains</option>
+              <option>Bags</option>
+              <option>Watches</option>
+              <option>Sunglasses</option>
+              <option>Bracelets</option>
+              <option>Other Jewellery</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Image URL</label>
+            <input class="form-input" id="ac-img" placeholder="https://i.pinimg.com/... or Amazon product image URL" oninput="previewImg('ac-img','ac-preview')">
+            <div class="img-preview-wrap"><img class="img-preview" id="ac-preview"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Amazon / Myntra Affiliate Link *</label>
+            <input class="form-input" id="ac-link" placeholder="https://www.amazon.in/...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price (optional)</label>
+            <input class="form-input" id="ac-price" placeholder="e.g. ₹599 or $12">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Short Description</label>
+            <input class="form-input" id="ac-desc" placeholder="e.g. Delicate layered design, perfect for everyday wear">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Show on Homepage?</label>
+            <select class="form-select" id="ac-featured">
+              <option value="yes">Yes — Feature on Homepage</option>
+              <option value="no">No — Accessories page only</option>
+            </select>
+          </div>
+        </div>
+        <button class="admin-submit" onclick="addItem('accessories')">Add Accessory ✦</button>
+      </div>
+      <div class="admin-list" id="list-accessories"></div>
+    </div>
+
+    <!-- ── SHOP THE LOOK PANEL ── -->
+    <div class="admin-panel" id="panel-shop">
+      <div class="admin-section-title">Shop the Look</div>
+      <div class="admin-section-sub">Add complete shoppable outfit bundles with multiple product links.</div>
+      <div class="admin-form-card">
+        <div class="admin-form-title">Add New Shoppable Look</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Look Name *</label>
+            <input class="form-input" id="sh-title" placeholder="e.g. Elegant Office Outfit">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Style Tag</label>
+            <select class="form-select" id="sh-cat">
+              <option>Office Wear</option>
+              <option>Festive</option>
+              <option>Casual</option>
+              <option>Evening</option>
+              <option>Street Style</option>
+              <option>Formal</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Look Image URL</label>
+            <input class="form-input" id="sh-img" placeholder="https://i.pinimg.com/..." oninput="previewImg('sh-img','sh-preview')">
+            <div class="img-preview-wrap"><img class="img-preview" id="sh-preview"></div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Products in this Look (one per line: Name | Amazon URL)</label>
+            <textarea class="form-textarea" id="sh-products" style="min-height:120px;" placeholder="Structured Blazer | https://amazon.in/...&#10;Tailored Trousers | https://amazon.in/...&#10;Block Heels | https://amazon.in/...&#10;Tote Bag | https://amazon.in/..."></textarea>
+            <div class="form-hint">Format: Product Name | Amazon affiliate link (one per line)</div>
+          </div>
+        </div>
+        <button class="admin-submit" onclick="addItem('shop')">Add Shoppable Look ✦</button>
+      </div>
+      <div class="admin-list" id="list-shop"></div>
+    </div>
+
+    <!-- ── TREND GUIDES PANEL ── -->
+    <div class="admin-panel" id="panel-trends">
+      <div class="admin-section-title">Trend Guides</div>
+      <div class="admin-section-sub">Add editorial trend guides and style articles.</div>
+      <div class="admin-form-card">
+        <div class="admin-form-title">Add New Trend Guide</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Guide Title *</label>
+            <input class="form-input" id="tr-title" placeholder="e.g. 10 Elegant Outfit Ideas for Work">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Topic Tag</label>
+            <select class="form-select" id="tr-cat">
+              <option>Office Style</option>
+              <option>Accessories</option>
+              <option>Festive</option>
+              <option>Seasonal</option>
+              <option>Minimalism</option>
+              <option>Global Fashion</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Cover Image URL</label>
+            <input class="form-input" id="tr-img" placeholder="https://i.pinimg.com/..." oninput="previewImg('tr-img','tr-preview')">
+            <div class="img-preview-wrap"><img class="img-preview" id="tr-preview"></div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Guide Summary</label>
+            <textarea class="form-textarea" id="tr-desc" placeholder="A brief overview of this style guide..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Link (optional)</label>
+            <input class="form-input" id="tr-link" placeholder="https://...">
+          </div>
+        </div>
+        <button class="admin-submit" onclick="addItem('trends')">Add Trend Guide ✦</button>
+      </div>
+      <div class="admin-list" id="list-trends"></div>
+    </div>
+
+  </div><!-- admin-body -->
+</div><!-- admin-overlay -->
+
+<script>
+// ════════════════════════════════════════
+// DATA STORE (localStorage)
+// ════════════════════════════════════════
+const STORE_KEY = 'opal_rouge_data';
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? JSON.parse(raw) : { outfits: [], accessories: [], shop: [], trends: [] };
+  } catch(e) { return { outfits: [], accessories: [], shop: [], trends: [] }; }
+}
+
+function saveData(data) {
+  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+}
+
+function getData(type) { return loadData()[type] || []; }
+
+function addData(type, item) {
+  const data = loadData();
+  item.id = Date.now().toString();
+  item.date = new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
+  data[type].unshift(item);
+  saveData(data);
+}
+
+function deleteData(type, id) {
+  const data = loadData();
+  data[type] = data[type].filter(i => i.id !== id);
+  saveData(data);
+}
+
+// ════════════════════════════════════════
+// PAGE NAVIGATION
+// ════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const t = document.getElementById('page-' + name);
+  if (t) { t.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const na = document.getElementById('nav-' + name);
+  if (na) na.classList.add('active');
+  renderAll();
+}
+
+// ════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════
+function imgOrPlaceholder(url, placeholder, cls='') {
+  if (url && url.trim()) {
+    return `<img src="${url}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="outfit-img-placeholder" style="display:none;">${placeholder}</div>`;
+  }
+  return `<div class="outfit-img-placeholder">${placeholder}</div>`;
+}
+
+function renderOutfitCard(item) {
+  return `<div class="outfit-card" onclick="window.open('${item.link||'#'}','_blank')">
+    <div class="outfit-img">
+      ${imgOrPlaceholder(item.img, item.title ? item.title[0] : 'O')}
+      <div class="outfit-overlay"><span class="outfit-overlay-text">Shop This Look →</span></div>
+    </div>
+    <div class="outfit-tag">${item.cat || 'Style'}</div>
+    <div class="outfit-title">${item.title}</div>
+  </div>`;
+}
+
+function renderAccessoryCard(item) {
+  const imgContent = item.img
+    ? `<img src="${item.img}" alt="${item.title}" style="width:100%;height:100%;object-fit:cover;" onerror="this.outerHTML='<div style=\\'width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:2rem;color:rgba(201,137,122,0.35);\\'>${item.title?item.title[0]:'A'}</div>'">`
+    : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:2rem;color:rgba(201,137,122,0.35);">${item.title?item.title[0]:'A'}</div>`;
+  return `<a class="accessory-card" href="${item.link||'#'}" target="_blank" rel="noopener noreferrer sponsored">
+    <div class="accessory-img">${imgContent}</div>
+    <div class="accessory-info">
+      <div class="accessory-cat">${item.cat||'Accessories'}</div>
+      <div class="accessory-name">${item.title}</div>
+      ${item.price ? `<div style="font-size:0.8rem;color:var(--rose);font-family:var(--serif);margin-bottom:0.3rem;">${item.price}</div>` : ''}
+      <div class="accessory-link">Shop Now →</div>
+    </div>
+  </a>`;
+}
+
+function renderTrendCard(item) {
+  const bg = item.img ? `background:url('${item.img}') center/cover no-repeat` : `background:var(--muted)`;
+  return `<div class="outfit-card" onclick="window.open('${item.link||'#'}','_blank')">
+    <div class="outfit-img" style="${bg}; aspect-ratio:3/4;">
+      ${item.img ? '' : `<div class="outfit-img-placeholder" style="color:rgba(250,247,244,0.2);">${item.title?item.title[0]:'T'}</div>`}
+      <div class="outfit-overlay" style="opacity:1;background:linear-gradient(to top,rgba(42,34,32,0.8) 0%,transparent 55%);">
+        <div>
+          <div style="font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);margin-bottom:0.4rem;">${item.cat||'Trends'}</div>
+          <div style="font-family:var(--serif);font-size:1.05rem;color:var(--warm-white);line-height:1.3;">${item.title}</div>
+          ${item.date ? `<div style="font-size:0.62rem;color:rgba(250,247,244,0.45);margin-top:0.4rem;">${item.date}</div>` : ''}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderEmpty(msg) {
+  return `<div class="empty-state" style="grid-column:1/-1;">
+    <div class="empty-state-icon">✦</div>
+    <p>${msg}</p>
+  </div>`;
+}
+
+function renderAll() {
+  const outfits = getData('outfits');
+  const accs = getData('accessories');
+  const shop = getData('shop');
+  const trends = getData('trends');
+
+  // Home outfits (featured only, max 6)
+  const featOutfits = outfits.filter(i => i.featured !== 'no').slice(0, 6);
+  const hog = document.getElementById('home-outfits-grid');
+  if (hog) hog.innerHTML = featOutfits.length ? featOutfits.map(renderOutfitCard).join('') : renderEmpty('No outfits yet — add some in the Admin panel ✦');
+
+  // Home accessories (featured only, max 8)
+  const featAccs = accs.filter(i => i.featured !== 'no').slice(0, 8);
+  const hag = document.getElementById('home-accessories-grid');
+  if (hag) hag.innerHTML = featAccs.length ? featAccs.map(renderAccessoryCard).join('') : renderEmpty('No accessories yet — add some in the Admin panel ✦');
+
+  // Hero pins
+  const heroPins = document.getElementById('hero-pins');
+  if (heroPins) {
+    const heroItems = [...outfits, ...accs].slice(0, 3);
+    if (heroItems.length >= 1) {
+      heroPins.innerHTML = heroItems.map((item, i) => `
+        <div class="hero-pin">
+          ${i===0 ? '<div class="pin-badge">New</div>' : ''}
+          <div class="pin-img">
+            ${item.img ? `<img src="${item.img}" alt="${item.title}" onerror="this.style.display='none'">` : item.title[0]}
+          </div>
+          <div class="pin-body">
+            <div class="pin-cat">${item.cat||'Style'}</div>
+            <div class="pin-title">${item.title}</div>
+          </div>
+        </div>`).join('');
+    } else {
+      heroPins.innerHTML = `
+        <div class="hero-pin"><div class="pin-badge">New</div><div class="pin-img" style="font-size:2rem;color:var(--rose);">O&R</div><div class="pin-body"><div class="pin-cat">Office Chic</div><div class="pin-title">The Structured Blazer Edit</div></div></div>
+        <div class="hero-pin"><div class="pin-img" style="font-size:2rem;color:var(--rose);">♦</div><div class="pin-body"><div class="pin-cat">Accessories</div><div class="pin-title">Gold Layered Necklaces</div></div></div>
+        <div class="hero-pin"><div class="pin-img" style="font-size:2rem;color:var(--rose);">✦</div><div class="pin-body"><div class="pin-cat">Festive</div><div class="pin-title">Eid Season Lookbook</div></div></div>`;
+    }
+  }
+
+  // All outfits
+  const aog = document.getElementById('all-outfits-grid');
+  if (aog) aog.innerHTML = outfits.length ? outfits.map(renderOutfitCard).join('') : renderEmpty('No outfit posts yet — add some in the Admin panel ✦');
+
+  // All accessories
+  const aag = document.getElementById('all-accessories-grid');
+  if (aag) aag.innerHTML = accs.length ? accs.map(renderAccessoryCard).join('') : renderEmpty('No accessories yet — add some in the Admin panel ✦');
+
+  // Shop
+  const sg = document.getElementById('shop-grid');
+  if (sg) sg.innerHTML = shop.length ? shop.map(item => {
+    const products = (item.products || '').split('\n').filter(l => l.includes('|')).map(l => {
+      const [name, url] = l.split('|').map(s => s.trim());
+      return `<a href="${url||'#'}" target="_blank" rel="noopener noreferrer sponsored" style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 0;border-bottom:1px solid rgba(201,137,122,0.1);text-decoration:none;color:inherit;font-size:0.82rem;transition:padding-left 0.2s;" onmouseover="this.style.paddingLeft='0.5rem'" onmouseout="this.style.paddingLeft='0'">
+        <span>${name}</span><span style="color:var(--rose);">→</span></a>`;
+    }).join('');
+    return `<div class="outfit-card">
+      <div class="outfit-img" ${item.img ? `style="background:url('${item.img}') center/cover;aspect-ratio:3/4;"` : ''}>
+        ${!item.img ? `<div class="outfit-img-placeholder">${item.title[0]}</div>` : ''}
+        <div class="outfit-overlay"><span class="outfit-overlay-text">Shop This Look →</span></div>
+      </div>
+      <div class="outfit-tag">${item.cat||'Style'}</div>
+      <div class="outfit-title" style="margin-bottom:0.75rem;">${item.title}</div>
+      ${products}
+    </div>`;
+  }).join('') : renderEmpty('No shop looks yet — add some in the Admin panel ✦');
+
+  // Trends
+  const tg = document.getElementById('trends-grid');
+  if (tg) tg.innerHTML = trends.length ? trends.map(renderTrendCard).join('') : renderEmpty('No trend guides yet — add some in the Admin panel ✦');
+
+  // About counts
+  const oc = document.getElementById('about-outfit-count');
+  const ac2 = document.getElementById('about-acc-count');
+  if (oc) oc.textContent = outfits.length;
+  if (ac2) ac2.textContent = accs.length;
+
+  // Admin stats
+  const so = document.getElementById('stat-outfits');
+  const sa = document.getElementById('stat-accessories');
+  const ss = document.getElementById('stat-shop');
+  const st = document.getElementById('stat-trends');
+  if (so) so.textContent = outfits.length;
+  if (sa) sa.textContent = accs.length;
+  if (ss) ss.textContent = shop.length;
+  if (st) st.textContent = trends.length;
+
+  // Admin lists
+  renderAdminList('outfits', outfits);
+  renderAdminList('accessories', accs);
+  renderAdminList('shop', shop);
+  renderAdminList('trends', trends);
+}
+
+function renderAdminList(type, items) {
+  const el = document.getElementById('list-' + type);
+  if (!el) return;
+  if (!items.length) { el.innerHTML = '<div style="text-align:center;padding:2rem;font-size:0.8rem;color:rgba(232,224,216,0.3);">Nothing added yet</div>'; return; }
+  el.innerHTML = items.map(item => `
+    <div class="admin-item">
+      <div class="admin-item-img">
+        ${item.img ? `<img src="${item.img}" alt="" onerror="this.style.display='none'">` : (item.title?item.title[0]:'?')}
+      </div>
+      <div class="admin-item-info">
+        <div class="admin-item-name">${item.title}<span class="admin-item-cat">${item.cat||''}</span></div>
+        <div class="admin-item-meta">${item.date||''}${item.price ? ' · ' + item.price : ''}${item.link ? ' · <a href="'+item.link+'" target="_blank" style="color:var(--admin-accent);text-decoration:none;">View Link ↗</a>' : ''}</div>
+      </div>
+      <div class="admin-item-actions">
+        <button class="admin-action-btn danger" onclick="removeItem('${type}','${item.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+// ════════════════════════════════════════
+// ADMIN ACTIONS
+// ════════════════════════════════════════
+function openAdmin() {
+  document.getElementById('admin-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderAll();
+}
+
+function closeAdmin() {
+  document.getElementById('admin-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+  renderAll();
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.admin-tab').forEach((t,i) => {
+    const tabs = ['outfits','accessories','shop','trends'];
+    t.classList.toggle('active', tabs[i] === name);
+  });
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + name);
+  if (panel) panel.classList.add('active');
+}
+
+function val(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function clear(id) { const el = document.getElementById(id); if (el) el.value = ''; }
+function hidePreview(id) { const el = document.getElementById(id); if (el) { el.src=''; el.classList.remove('show'); } }
+
+function addItem(type) {
+  let item = {};
+  if (type === 'outfits') {
+    if (!val('of-title') || !val('of-cat')) { showToast('Please fill in Title and Category'); return; }
+    item = { title: val('of-title'), cat: val('of-cat'), img: val('of-img'), desc: val('of-desc'), link: val('of-link'), featured: val('of-featured') };
+    ['of-title','of-cat','of-img','of-desc','of-link'].forEach(clear); hidePreview('of-preview');
+  } else if (type === 'accessories') {
+    if (!val('ac-title') || !val('ac-cat')) { showToast('Please fill in Name and Category'); return; }
+    item = { title: val('ac-title'), cat: val('ac-cat'), img: val('ac-img'), link: val('ac-link'), price: val('ac-price'), desc: val('ac-desc'), featured: val('ac-featured') };
+    ['ac-title','ac-cat','ac-img','ac-link','ac-price','ac-desc'].forEach(clear); hidePreview('ac-preview');
+  } else if (type === 'shop') {
+    if (!val('sh-title')) { showToast('Please fill in Look Name'); return; }
+    item = { title: val('sh-title'), cat: val('sh-cat'), img: val('sh-img'), products: val('sh-products') };
+    ['sh-title','sh-img','sh-products'].forEach(clear); hidePreview('sh-preview');
+  } else if (type === 'trends') {
+    if (!val('tr-title')) { showToast('Please fill in Guide Title'); return; }
+    item = { title: val('tr-title'), cat: val('tr-cat'), img: val('tr-img'), desc: val('tr-desc'), link: val('tr-link') };
+    ['tr-title','tr-img','tr-desc','tr-link'].forEach(clear); hidePreview('tr-preview');
+  }
+  addData(type, item);
+  renderAll();
+  showToast('Added successfully ✦');
+}
+
+function removeItem(type, id) {
+  if (!confirm('Delete this item?')) return;
+  deleteData(type, id);
+  renderAll();
+  showToast('Deleted');
+}
+
+function previewImg(inputId, previewId) {
+  const url = document.getElementById(inputId)?.value?.trim();
+  const preview = document.getElementById(previewId);
+  if (!preview) return;
+  if (url) {
+    preview.src = url;
+    preview.classList.add('show');
+    preview.onerror = () => { preview.classList.remove('show'); };
+    preview.onload = () => { preview.classList.add('show'); };
+  } else {
+    preview.classList.remove('show');
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  const msgEl = document.getElementById('toast-msg');
+  if (!toast || !msgEl) return;
+  msgEl.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  renderAll();
+});
+</script>
+</body>
+</html>
