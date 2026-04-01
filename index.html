@@ -232,7 +232,7 @@ footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(2
     <li><a onclick="showPage('about')" id="nav-about">About</a></li>
   </ul>
   <div class="nav-right">
-    <button class="admin-btn" onclick="openAdmin()">⚙ Admin</button>
+    <button class="admin-btn" id="adminBtn" style="display:none;" onclick="openAdmin()">⚙ Admin</button>
     <button class="nav-cta" onclick="showPage('shop')">Shop the Look</button>
   </div>
 </nav>
@@ -961,6 +961,29 @@ function handleImageUpload(event, inputId, previewId) {
 
   reader.readAsDataURL(file);
 }
+
+function checkAdminAccess() {
+  const password = prompt("Enter Admin Password:");
+
+  if (password === "97z311@94856") { // 🔑 change this!
+    openAdmin();
+  } else if (password !== null) {
+    alert("Wrong password!");
+  }
+}
+
+document.addEventListener("keydown", function(e) {
+  if (e.ctrlKey && e.key === "a") {
+    const password = prompt("Enter Admin Password:");
+
+    if (password === "mySecret@2026") {
+      document.getElementById("adminBtn").style.display = "block";
+      openAdmin();
+    } else {
+      alert("Access denied");
+    }
+  }
+});
 
 // ════════════════════════════════════════
 // INIT
