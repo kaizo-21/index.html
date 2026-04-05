@@ -633,18 +633,24 @@ footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(2
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ════════════════════════════════════════
 // FIREBASE CONFIG
 // ════════════════════════════════════════
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_PROJECT_ID"
+  apiKey: "AIzaSyCsyAPGWVzuqH-ZSq-zWAT9gdqbmCgdmcg",
+  authDomain: "opal-rouge.firebaseapp.com",
+  projectId: "opal-rouge",
+  storageBucket: "opal-rouge.firebasestorage.app",
+  messagingSenderId: "580738002347",
+  appId: "1:580738002347:web:6f1b371766c7a1504e36ee",
+  measurementId: "G-VPYVRD8522"
 };
 
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 // ════════════════════════════════════════
