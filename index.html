@@ -657,23 +657,43 @@ const db = getFirestore(app);
 // DATA STORE (Firestore)
 // ════════════════════════════════════════
 async function addData(type, item) {
-  await addDoc(collection(db, type), {
-    ...item,
-    createdAt: Date.now()
-  });
+  try {
+    await addDoc(collection(db, type), {
+      ...item,
+      date: new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' }),
+      createdAt: Date.now()
+    });
+  } catch(e) {
+    console.error('addData error:', e);
+    showToast('Error adding item: ' + e.message);
+    throw e;
+  }
 }
 
 async function getData(type) {
-  const snap = await getDocs(collection(db, type));
-  let data = [];
-  snap.forEach(d => {
-    data.push({ id: d.id, ...d.data() });
-  });
-  return data;
+  try {
+    const snap = await getDocs(collection(db, type));
+    let data = [];
+    snap.forEach(d => {
+      data.push({ id: d.id, ...d.data() });
+    });
+    data.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    return data;
+  } catch(e) {
+    console.error('getData error:', e);
+    showToast('Error loading data: ' + e.message);
+    return [];
+  }
 }
 
 async function deleteData(type, id) {
-  await deleteDoc(doc(db, type, id));
+  try {
+    await deleteDoc(doc(db, type, id));
+  } catch(e) {
+    console.error('deleteData error:', e);
+    showToast('Error deleting item: ' + e.message);
+    throw e;
+  }
 }
 
 // ════════════════════════════════════════
