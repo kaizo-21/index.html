@@ -1018,6 +1018,20 @@ document.addEventListener("keydown", function(e) {
 });
 
 // ════════════════════════════════════════
+// EXPOSE FUNCTIONS TO WINDOW
+// (required because this is a module script)
+// ════════════════════════════════════════
+window.showPage        = showPage;
+window.openAdmin       = openAdmin;
+window.closeAdmin      = closeAdmin;
+window.switchTab       = switchTab;
+window.addItem         = addItem;
+window.removeItem      = removeItem;
+window.previewImg      = previewImg;
+window.handleImageUpload = handleImageUpload;
+window.checkAdminAccess = checkAdminAccess;
+
+// ════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', async () => {
