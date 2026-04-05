@@ -631,50 +631,56 @@ footer { background: var(--charcoal); padding: 3.5rem 3.5rem 2rem; color: rgba(2
   </div><!-- admin-body -->
 </div><!-- admin-overlay -->
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 // ════════════════════════════════════════
-// DATA STORE (localStorage)
+// FIREBASE CONFIG
 // ════════════════════════════════════════
-const STORE_KEY = 'opal_rouge_data';
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_PROJECT_ID"
+};
 
-function loadData() {
-  try {
-    const raw = localStorage.getItem(STORE_KEY);
-    return raw ? JSON.parse(raw) : { outfits: [], accessories: [], shop: [], trends: [] };
-  } catch(e) { return { outfits: [], accessories: [], shop: [], trends: [] }; }
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// ════════════════════════════════════════
+// DATA STORE (Firestore)
+// ════════════════════════════════════════
+async function addData(type, item) {
+  await addDoc(collection(db, type), {
+    ...item,
+    createdAt: Date.now()
+  });
 }
 
-function saveData(data) {
-  localStorage.setItem(STORE_KEY, JSON.stringify(data));
+async function getData(type) {
+  const snap = await getDocs(collection(db, type));
+  let data = [];
+  snap.forEach(d => {
+    data.push({ id: d.id, ...d.data() });
+  });
+  return data;
 }
 
-function getData(type) { return loadData()[type] || []; }
-
-function addData(type, item) {
-  const data = loadData();
-  item.id = Date.now().toString();
-  item.date = new Date().toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
-  data[type].unshift(item);
-  saveData(data);
-}
-
-function deleteData(type, id) {
-  const data = loadData();
-  data[type] = data[type].filter(i => i.id !== id);
-  saveData(data);
+async function deleteData(type, id) {
+  await deleteDoc(doc(db, type, id));
 }
 
 // ════════════════════════════════════════
 // PAGE NAVIGATION
 // ════════════════════════════════════════
-function showPage(name) {
+async function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   const t = document.getElementById('page-' + name);
   if (t) { t.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
   document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
   const na = document.getElementById('nav-' + name);
   if (na) na.classList.add('active');
-  renderAll();
+  await renderAll();
 }
 
 // ════════════════════════════════════════
@@ -737,11 +743,11 @@ function renderEmpty(msg) {
   </div>`;
 }
 
-function renderAll() {
-  const outfits = getData('outfits');
-  const accs = getData('accessories');
-  const shop = getData('shop');
-  const trends = getData('trends');
+async function renderAll() {
+  const outfits = await getData('outfits');
+  const accs = await getData('accessories');
+  const shop = await getData('shop');
+  const trends = await getData('trends');
 
   // Home outfits (featured only, max 6)
   const featOutfits = outfits.filter(i => i.featured !== 'no').slice(0, 6);
@@ -853,16 +859,16 @@ function renderAdminList(type, items) {
 // ════════════════════════════════════════
 // ADMIN ACTIONS
 // ════════════════════════════════════════
-function openAdmin() {
+async function openAdmin() {
   document.getElementById('admin-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
-  renderAll();
+  await renderAll();
 }
 
-function closeAdmin() {
+async function closeAdmin() {
   document.getElementById('admin-overlay').classList.remove('open');
   document.body.style.overflow = '';
-  renderAll();
+  await renderAll();
 }
 
 function switchTab(name) {
@@ -879,7 +885,7 @@ function val(id) { const el = document.getElementById(id); return el ? el.value.
 function clear(id) { const el = document.getElementById(id); if (el) el.value = ''; }
 function hidePreview(id) { const el = document.getElementById(id); if (el) { el.src=''; el.classList.remove('show'); } }
 
-function addItem(type) {
+async function addItem(type) {
   let item = {};
   if (type === 'outfits') {
     if (!val('of-title') || !val('of-cat')) { showToast('Please fill in Title and Category'); return; }
@@ -898,15 +904,15 @@ function addItem(type) {
     item = { title: val('tr-title'), cat: val('tr-cat'), img: val('tr-img'), desc: val('tr-desc'), link: val('tr-link') };
     ['tr-title','tr-img','tr-desc','tr-link'].forEach(clear); hidePreview('tr-preview');
   }
-  addData(type, item);
-  renderAll();
+  await addData(type, item);
+  await renderAll();
   showToast('Added successfully ✦');
 }
 
-function removeItem(type, id) {
+async function removeItem(type, id) {
   if (!confirm('Delete this item?')) return;
-  deleteData(type, id);
-  renderAll();
+  await deleteData(type, id);
+  await renderAll();
   showToast('Deleted');
 }
 
@@ -965,7 +971,7 @@ function handleImageUpload(event, inputId, previewId) {
 function checkAdminAccess() {
   const password = prompt("Enter Admin Password:");
 
-  if (password === "1234") { // 🔑 change this!
+  if (password === "97z311@94856") { // 🔑 change this!
     openAdmin();
   } else if (password !== null) {
     alert("Wrong password!");
@@ -976,7 +982,7 @@ document.addEventListener("keydown", function(e) {
   if (e.ctrlKey && e.key === "a") {
     const password = prompt("Enter Admin Password:");
 
-    if (password === "97z311@94856") {
+    if (password === "mySecret@2026") {
       document.getElementById("adminBtn").style.display = "block";
       openAdmin();
     } else {
@@ -988,8 +994,8 @@ document.addEventListener("keydown", function(e) {
 // ════════════════════════════════════════
 // INIT
 // ════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  renderAll();
+document.addEventListener('DOMContentLoaded', async () => {
+  await renderAll();
 });
 </script>
 </body>
